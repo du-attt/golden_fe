@@ -31,3 +31,14 @@ export const postClassify = async (subject:string) => {
         return null;
     }
 };
+export const postDetail = async (subject:string) => {
+    try{
+        const response = await axios.post(`${BASE_URL}/detail`, {
+            subject: subject,
+        });
+        return response.data;
+    } catch(error){
+        console.error("Lỗi khi lấy dữ liệu điểm số:", error);
+        return null;
+    }
+}

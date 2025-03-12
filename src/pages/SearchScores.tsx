@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { getScores } from "../api/apiServices";
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import nodataImage from "../assets/nodata.jpg";
+import loadingImage from "../assets/loading.png";
 
 const SearchScores = () => {
     const [sbd, setSbd] = useState<string>("");
@@ -56,9 +57,9 @@ const SearchScores = () => {
     };
 
     return (
-        <div className="fixed top-30 h-full w-4/5 flex-col align-start justify-start">
+        <div className="flex flex-col items-center justify-start overflow-x-auto" style={{marginTop: 100}}>
             <div className="flex flex-row items-start w-full bg-gray-300 p-4">
-                <div className="flex items-center w-full max-w-md relative bg-gray-100 p-2 rounded-lg">
+                <div className="flex items-center w-full max-w-sm md:max-w-md relative bg-gray-100 p-2 rounded-lg transition-all duration-300">
                     <input
                         type="text"
                         placeholder="Nhập số báo danh..."
@@ -90,18 +91,21 @@ const SearchScores = () => {
                         </button>
                     </div>
                 </div>
-                {loading && <p className="ml-10 mt-5 text-blue-500">Đang tìm kiếm...</p>}
                 {error && <p className="ml-10 mt-5 text-red-500">{error}</p>}
             </div>
-            {!loading && columnResult.length === 0 && <div className="flex flex-col items-center justify-center h-screen">
+            {loading && 
+                    <div className="flex flex-col items-center justify-center animate-pulse min-h-[200px]">
+                    <img src={loadingImage} alt="No data available" className="opacity-70 mt-10 w-48 h-48" />
+                    <p className="mt-10 text-xl font-semibold text-blue-600">Dữ liệu đang được tải xuống...</p>
+                </div>}
+            
+            {!loading && columnResult.length === 0  && <div className="flex flex-col items-center justify-center mt-20">
                 <img src={nodataImage} alt="No data available" className="w-1/2 opacity-70" />
-                <p className="mt-4 text-gray-500 text-lg font-semibold mb-50">Chưa có dữ liệu để hiển thị</p>
+                <p className="mt-4 text-gray-500 text-lg font-semibold">Chưa có dữ liệu để hiển thị</p>
             </div>}
-            {/* {loading && <p className="mt-4 text-blue-500">Đang tìm kiếm...</p>}
-            {error && <p className="mt-4 text-red-500">{error}</p>} */}
 
             {columnResult.length > 0 && (
-                <div className="flex flex-col items-start w-full h-full bg-gray-100 p-4">
+                <div className="flex flex-col items-start w-full h-full bg-gray-100 p-4 min-h-[200px] transition-all duration-300">
                     <div className="overflow-x-auto w-full">
                         <table className="min-w-full bg-white border border-gray-300">
                             <thead>

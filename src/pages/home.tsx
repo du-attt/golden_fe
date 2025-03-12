@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getTop10 } from "../api/apiServices";
+import loadingImage from "../assets/loading.png";
 
 const Home = () => {
     const [columnResult, setColumnResult] = useState<any[]>([]);
@@ -45,21 +46,23 @@ const Home = () => {
     }, []);
 
     return (
-        <div className="fixed top-30 h-full w-4/5 flex-col align-start justify-start">
-            <div className="flex flex-row items-start w-full bg-gray-300 p-4">
-                <p className="text-lg font-bold">DANH SÁCH TOP 10 HỌC SINH KHỐI A</p>
+        <div className="flex flex-col items-center justify-start overflow-x-auto" style={{marginTop: 100}}>
+            <div className="w-full bg-gray-300 p-4">
+                <p className="text-lg font-bold text-center">DANH SÁCH TOP 10 HỌC SINH KHỐI A</p>
             </div>
-
-            <div className="flex items-start w-full bg-gray-300 p-4 mt-2">
-                <div className="overflow-x-auto w-full">
-                    {loading ? (
-                        <p className="text-center text-blue-500 font-semibold">Đang tải dữ liệu...</p>
-                    ) : error ? (
-                        <p className="text-center text-red-500 font-semibold">{error}</p>
-                    ) : columnResult.length === 0 ? (
-                        <p className="text-center text-gray-500 font-semibold">Không có dữ liệu để hiển thị.</p>
-                    ) : (
-                        <table className="min-w-full bg-white border border-gray-300">
+            {loading ? (
+                <div className="flex flex-col items-center justify-center animate-pulse min-h-[400px]">
+                <img src={loadingImage} alt="No data available" className="opacity-70 mt-10 w-48 h-48" />
+                <p className="mt-10 text-xl font-semibold text-blue-600">Dữ liệu đang được tải xuống...</p>
+            </div>
+            ) : error ? (
+                <p className="text-center text-red-500 font-semibold w-full">{error}</p>
+            ) : columnResult.length === 0 ? (
+                <p className="text-center text-gray-500 font-semibold w-full">Không có dữ liệu để hiển thị.</p>
+            ) : (
+                <div className="w-full bg-gray-300 p-4 mt-2">
+                    <div className="overflow-x-auto w-full"> 
+                        <table className="w-full min-w-full bg-white border border-gray-300">
                             <thead>
                                 <tr className="bg-gray-200">
                                     {columnNames.map((name, i) => (
@@ -79,9 +82,9 @@ const Home = () => {
                                 ))}
                             </tbody>
                         </table>
-                    )}
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };

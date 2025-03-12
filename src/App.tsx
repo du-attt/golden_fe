@@ -8,11 +8,13 @@ import Reports from "./pages/Reports";
 const App: React.FC = () => {
   return (
     <Router>
-      <div className="flex flex-col h-screen">
+      <div className="flex flex-col h-screen w-screen">
         <Header />
-        <div className="flex flex-1">
-          <Sidebar />
-          <div className="flex-1 p-4 ml-64 overflow-auto">
+        <div className="flex flex-row justify-between">
+          <div className="md:w-[200px]">
+            <Sidebar />
+          </div>
+          <div className="flex-1 p-4 overflow-auto">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/searchscores" element={<SearchScores />} />
@@ -22,7 +24,6 @@ const App: React.FC = () => {
         </div>
       </div>
     </Router>
-    // <SearchScores />
   );
 };
 
