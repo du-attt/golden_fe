@@ -32,17 +32,19 @@ const Sidebar = () => {
                     { path: "/searchscores", label: "Search Scores" },
                     { path: "/reports", label: "Reports" }
                 ].map(({ path, label }) => (
-                    <div
-                        key={path}
-                        className={`flex w-full h-10 items-center justify-center cursor-pointer 
-                            ${isActive(path) ? "bg-blue-500 text-white" : "text-white"}`}
-                        onClick={() => { navigate(path); setIsOpen(false); }}
-                    >
-                        <p>{label}</p>
-                    </div>
-                ))}
+                    <>
+                        <div
+                            key={path}
+                            className={`flex w-full h-10 items-center justify-center cursor-pointer 
+                                ${isActive(path) ? "bg-blue-500 text-white" : "text-white"}`}
+                            onClick={() => { navigate(path); setIsOpen(false); }}
+                        >
+                            <p>{label}</p>
+                        </div>
+                        <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-blue-400 to-transparent"></div>
 
-                <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-blue-400 to-transparent"></div>
+                    </>
+                ))}
             </div>
         </>
     );

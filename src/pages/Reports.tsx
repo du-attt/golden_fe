@@ -26,6 +26,13 @@ const Reports = () => {
     const [showModel, setShowModel] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [topStudents, setTopStudents] = useState<any[]>([]);
+    const columnNames = [
+        "SBD", "Toán", "Ngữ Văn", "Ngoại Ngữ", "Vật Lí", "Hóa Học", "Sinh Học", "Lịch Sử", "Địa Lí", "GDCD", 
+    ];
+    const topColumn = [
+        "sbd", "toan", "ngu_van", "ngoai_ngu", "vat_li", "hoa_hoc", "sinh_hoc", "lich_su", "dia_li", "gdcd",
+    ];
     const Mapping:Record<string, string> = {
         toan: "Toán",
         ngu_van: "Ngữ văn",
@@ -49,11 +56,12 @@ const Reports = () => {
                 console.log("API Response:", result);
                 console.log("API Response:", resultDetail);
                 setColumnResult(result);
-                const formattedData = Object.entries(resultDetail).map(([key, value]) => ({
-                    subject: key,
-                    score: value as number
+                const formattedData = Object.entries(resultDetail.score_distribution).map(([key, value]) => ({
+                    subject: key.toString(),
+                    score: Number(value as number)
                 }));
                 setScoreDetail(formattedData);
+                setTopStudents(resultDetail.top_students);
             }catch(err){
                 setError("Không tìm thấy dữ liệu. Vui lòng thử lại!");
                 setColumnResult(null);
@@ -67,7 +75,7 @@ const Reports = () => {
         <div className="flex flex-col items-center justify-start overflow-x-auto" style={{marginTop: 100}}>
             <div className="flex flex-row justify-between items-start w-full bg-gray-300 p-4">
                 <p className="text-lg font-bold">Phổ điểm môn {value}</p>
-                <div className="items-center justify-center cursor-pointer hover:bg-gray-100 pl-4 pr-4 rounded-full border"
+                <div className="relative items-center justify-center cursor-pointer hover:bg-gray-100 pl-4 pr-4 rounded-full border"
                 onClick={() => setShowModel(!showModel)}>
                     <p className="text-lg font-bold" style={{ userSelect: "none", pointerEvents: "auto" }}>Bộ Lọc</p>
                 </div>
@@ -130,8 +138,33 @@ const Reports = () => {
 
                 </div>
             </div>)}
+            {!loading && (<div className="flex flex-col justify-between items-start w-full bg-gray-300 p-4">
+                <p className="text-lg font-bold mb-10">Top 10 học sinh có điểm {value} cao nhất</p>
+                <div className="overflow-x-auto w-full">
+                    <table className="min-w-full bg-white border border-gray-300">
+                        <thead>
+                            <tr className="bg-gray-200">
+                                {columnNames.map((name, i) => (
+                                    <th key={i} className="border border-gray-300 px-4 py-2 text-left">{name}</th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {topStudents.map((value, i) => (
+                            <tr key ={i}>
+                                {topColumn.map((name, j) => (
+                                    <td key={j} className="border border-gray-300 px-4 py-2">
+                                        {value[name] ?? "-"}
+                                    </td>
+                                ))}
+                            </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>)};
             {showModel && (
-                <div className="absolute top-15 right-4 w-64 bg-white border shadow-lg rounded-lg p-4 transition-transform duration-300">
+                <div className="absolute mt-15 right-4 w-64 bg-white border shadow-lg rounded-lg p-4 transition-transform duration-300">
                     <div className="absolute -top-2 right-8 w-0 h-0 border-l-8 border-r-8 border-b-8 border-transparent border-b-white"></div>
                     <h2 className="text-xl font-bold mb-4">Bộ Lọc</h2>
                     
