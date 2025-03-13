@@ -1,8 +1,8 @@
 Yêu cầu hệ thống
 - Các công cụ cần cài đặt:
-Docker và Docker Compose
-Node.js
-Composer
++ Docker và Docker Compose
++ Node.js
++ Composer
 
 
 Cài đặt Dự án
