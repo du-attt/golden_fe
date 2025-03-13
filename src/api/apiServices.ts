@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://127.0.0.1:8000";
+const BASE_URL = "http://localhost:9000";
 
 export const getScores = async (sbd: string) => {
     try {

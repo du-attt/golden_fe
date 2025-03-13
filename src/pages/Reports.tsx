@@ -196,7 +196,7 @@ const Reports = () => {
                         </button>
                     </div>
                 </div>
-)}
+            )}
         </div>
     );
 };
