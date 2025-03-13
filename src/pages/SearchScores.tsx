@@ -18,8 +18,11 @@ const SearchScores = () => {
         if (!sbd.trim()) {
             setError("Vui lòng nhập số báo danh!");
             return;
+        } 
+        if(sbd.length < 8 || isNaN(Number(sbd))){
+            setError("Số báo danh phải có 8 chữ số");
+            return;
         }
-
         setLoading(true);
         setError(null);
 
@@ -104,7 +107,7 @@ const SearchScores = () => {
                 <p className="mt-4 text-gray-500 text-lg font-semibold">Chưa có dữ liệu để hiển thị</p>
             </div>}
 
-            {columnResult.length > 0 && (
+            {columnResult.length > 0 && !loading && (
                 <div className="flex flex-col items-start w-full h-full bg-gray-100 p-4 min-h-[200px] transition-all duration-300">
                     <div className="overflow-x-auto w-full">
                         <table className="min-w-full bg-white border border-gray-300">

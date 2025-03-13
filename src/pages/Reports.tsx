@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { postClassify, postDetail } from "../api/apiServices";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import loadingImage from "../assets/loading.png";
+import nodataImage from "../assets/nodata.jpg";
 interface ScoreData {
     total_students: number;
     average_score: number;
@@ -86,7 +87,10 @@ const Reports = () => {
                     <p className="mt-10 text-xl font-semibold text-blue-600">Dữ liệu đang được tải xuống...</p>
                 </div>
             ) : error ? (
-                <p className="text-center text-red-500 font-semibold">{error}</p>
+                <div className="flex flex-col items-center justify-center mt-20">
+                    <img src={nodataImage} alt="No data available" className="w-1/2 opacity-70" />
+                    <p className="text-center text-red-500 font-semibold w-full">{error}</p>
+                </div>
             ) : scoreDetail.length === 0 ? (
                 <p className="text-center text-gray-500 font-semibold">Không có dữ liệu để hiển thị.</p>
             ) : (
@@ -138,7 +142,7 @@ const Reports = () => {
 
                 </div>
             </div>)}
-            {!loading && (<div className="flex flex-col justify-between items-start w-full bg-gray-300 p-4">
+            {!loading && topStudents.length > 0 && (<div className="flex flex-col justify-between items-start w-full bg-gray-300 p-4">
                 <p className="text-lg font-bold mb-10">Top 10 học sinh có điểm {value} cao nhất</p>
                 <div className="overflow-x-auto w-full">
                     <table className="min-w-full bg-white border border-gray-300">
@@ -162,7 +166,7 @@ const Reports = () => {
                         </tbody>
                     </table>
                 </div>
-            </div>)};
+            </div>)}
             {showModel && (
                 <div className="absolute mt-15 right-4 w-64 bg-white border shadow-lg rounded-lg p-4 transition-transform duration-300">
                     <div className="absolute -top-2 right-8 w-0 h-0 border-l-8 border-r-8 border-b-8 border-transparent border-b-white"></div>
